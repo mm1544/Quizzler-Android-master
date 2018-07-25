@@ -69,9 +69,30 @@ public class MainActivity extends Activity {
 
     @Override
     // onCreate() specifies what should happen when application is being launched
+    //when app is launched, Bundle savedInstanceState == null
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        // after storing information of current state, we need to tell the app to check the Bundle
+        // when it is being created
+        //
+        if(savedInstanceState != null){
+            // if our savedInstanceState Bundle contains some values, the we need to restore
+            // the user score
+
+            mScore = savedInstanceState.getInt("ScoreKey");
+            mIndex = savedInstanceState.getInt("IndexKey");
+            //#### folowing line will cause error because mScoreTextView is not defined yet!!!
+            //mScoreTextView.setText("Score " + mScore + "/" + mQuestionBank.length);
+
+        } else {
+            mScore = 0;
+            mIndex = 0;
+        }
+
+
 
         // we will create the link between mTrueButton
         // and the button element in the layout xml file
@@ -98,6 +119,9 @@ public class MainActivity extends Activity {
         //example of setting a text on the textView:
         mQuestionTextView.setText(mQuestion); // "setText" accepts both,
         // strings of characters and resource IDs.
+
+        //!!! updates scoreTextView after screen is rotated
+        mScoreTextView.setText("Score " + mScore + "/" + mQuestionBank.length);
 
 
 
@@ -193,6 +217,27 @@ public class MainActivity extends Activity {
         }
 
     }
+
+    // overriding onSaveInstanceState method within MainActivity
+    @Override
+    public void onSaveInstanceState(Bundle outState){ // information is stored inside of a Bundle
+        // as a Key-Value pair
+        super.onSaveInstanceState(outState);
+        // we want to store the current score information it is an int inside mScore variable
+
+        // Key-value ..
+        outState.putInt("ScoreKey", mScore);
+
+        // to track what question the user was on
+        outState.putInt("IndexKey", mIndex);
+
+        // after storing information of current state, we need to tell the app to check the Bundle
+        // when it is being created
+
+
+
+    }
+
 
 
 
