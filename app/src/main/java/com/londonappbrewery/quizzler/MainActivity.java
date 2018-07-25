@@ -11,11 +11,6 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-    // TODO: Declare constants here
-
-    //we will store the amount that progress bar fills up as a constant
-    final int PROGRESS_BAR_INCREMENT = 8;
-
     // TODO: Declare member variables here:
     Button mTrueButton;
     Button mFalseButton;
@@ -53,6 +48,18 @@ public class MainActivity extends Activity {
             new TrueFalse(R.string.question_12, false),
             new TrueFalse(R.string.question_13,true)
     };
+
+
+
+
+    // TODO: Declare constants here
+
+    //we will store the amount that progress bar fills up as a constant
+    final int PROGRESS_BAR_INCREMENT = (int) Math.ceil( 100.0 / mQuestionBank.length);
+
+
+
+
 
     // EXAMPLE
     // same as:
@@ -135,6 +142,7 @@ public class MainActivity extends Activity {
         mQuestionTextView.setText(mQuestion); // "setText" accepts both,
         // strings of characters and resource IDs.
         mProgressBar.incrementProgressBy(PROGRESS_BAR_INCREMENT);
+        mScoreTextView.setText("Score " + mScore + "/" + mQuestionBank.length);
     }
 
     private void checkAnswer(boolean userSelection) {
@@ -143,7 +151,7 @@ public class MainActivity extends Activity {
 
         if(userSelection == correctAnswer){
             Toast.makeText(getApplicationContext(), R.string.correct_toast, Toast.LENGTH_SHORT).show();
-
+            mScore += 1;
         } else{
             Toast.makeText(getApplicationContext(),R.string.incorrect_toast, Toast.LENGTH_SHORT).show();
 
