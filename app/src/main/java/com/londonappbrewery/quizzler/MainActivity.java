@@ -87,11 +87,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) { //WHEN LISTENER DETECTS A TAP ON THE BUTTON, IT RESPONDS
                 // BY FIREING onClick METHOD. iT IS CALLED A "CALLBACK".
-                Log.d("Quizzler", "Button pressed!");
-
-                //SHORT WAY TO MAKE TOAST MESSAGE
-                Toast.makeText(getApplicationContext(), "True pressed", Toast.LENGTH_SHORT).show();
-
+                updateQuestion();
             }
         });
 
@@ -104,13 +100,7 @@ public class MainActivity extends Activity {
         mFalseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // THIS IS THE LONG WAY TO MAKE A TOST MESSAGE
-                //creating toast message
-                Toast myToast = Toast.makeText(getApplicationContext(),"False pressed", Toast.LENGTH_SHORT );
-                //shoving it to the user
-                myToast.show();
-
+                updateQuestion();
             }
         });
 
@@ -124,7 +114,8 @@ public class MainActivity extends Activity {
     }
 
     private void updateQuestion(){
-        mIndex = (mIndex + 1);
+        mIndex = (mIndex + 1) % mQuestionBank.length; //!!! using % we make mIndex to be set to 0
+        // again when it reaches nr 13
 
         mQuestion = mQuestionBank[mIndex].getQuestionID();
 
