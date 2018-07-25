@@ -81,11 +81,9 @@ public class MainActivity extends Activity {
 
 
 
-
-        //we create a variable
-        // View.OnClickListener -- is a TYPE
-        // myListener is a name
-        View.OnClickListener myListener = new View.OnClickListener() {
+        //now we should specify when it detects a click
+        // we should set a listenner on the TRUE button
+        mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //WHEN LISTENER DETECTS A TAP ON THE BUTTON, IT RESPONDS
                 // BY FIREING onClick METHOD. iT IS CALLED A "CALLBACK".
@@ -95,11 +93,7 @@ public class MainActivity extends Activity {
                 Toast.makeText(getApplicationContext(), "True pressed", Toast.LENGTH_SHORT).show();
 
             }
-        };
-
-        //now we should specify when it detects a click
-        // we should set a listenner on the TRUE button
-        mTrueButton.setOnClickListener(myListener);
+        });
 
 
         // for false button, the shortcut is going to be taken.
@@ -128,4 +122,17 @@ public class MainActivity extends Activity {
 
 
     }
+
+    private void updateQuestion(){
+        mIndex = (mIndex + 1);
+
+        mQuestion = mQuestionBank[mIndex].getQuestionID();
+
+        //setting a text on the textView:
+        mQuestionTextView.setText(mQuestion); // "setText" accepts both,
+        // strings of characters and resource IDs.
+    }
+
+
+
 }
