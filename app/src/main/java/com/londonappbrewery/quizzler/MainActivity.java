@@ -1,6 +1,8 @@
 package com.londonappbrewery.quizzler;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -66,6 +68,7 @@ public class MainActivity extends Activity {
     // int [] myIntArray = new int[] {2,4,6}
 
     @Override
+    // onCreate() specifies what should happen when application is being launched
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -135,6 +138,38 @@ public class MainActivity extends Activity {
     private void updateQuestion(){
         mIndex = (mIndex + 1) % mQuestionBank.length; //!!! using % we make mIndex to be set to 0
         // again when it reaches nr 13
+
+        //creating alert message
+        if(mIndex == 0){
+            // AlertDialog.Builder --> is a type
+            // we need to provide a CONTEXT A.K.A. THE CURRENT STATE OF THE APP
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                    // KEYWORD "this" REFFERES TO THE CURRENT OBJECT, WHICH HERE IS A MainActivity,
+                    // SO now our AlertDialog.Builder can now get the context via MainActivity object
+            //alternative way:
+            //AlertDialog.Builder alert = new AlertDialog.Builder(getApplicationContext());
+
+            //setting the title
+            alert.setTitle("Game Over");
+            // specifying whether the user can cancel alert dialog (i.e. tapping outside alert
+            // dialog window to make it dissapear)
+            alert.setCancelable(false);
+            alert.setMessage("You scored " + mScore + "points !");
+
+            // setting text fot positive choice button
+            // setting onClickListener on the button
+            alert.setPositiveButton("Close application", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // closes the app
+                    finish();
+                }
+            });
+            //showing alert dialog to the user
+            alert.show();
+
+
+        }
 
         mQuestion = mQuestionBank[mIndex].getQuestionID();
 
