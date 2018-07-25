@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,14 +13,20 @@ public class MainActivity extends Activity {
 
     // TODO: Declare constants here
 
+    //we will store the amount that progress bar fills up as a constant
+    final int PROGRESS_BAR_INCREMENT = 8;
 
     // TODO: Declare member variables here:
     Button mTrueButton;
     Button mFalseButton;
     TextView mQuestionTextView; // member variable for the text View
+    TextView mScoreTextView;
     int mIndex; // stores nr of question that we want fetch from the
     // question bank
     int mQuestion;
+    int mScore; // tracks number of correctly answered questions
+    ProgressBar mProgressBar;
+
 
 
 
@@ -67,6 +74,9 @@ public class MainActivity extends Activity {
         // A: we can use setText method, and provide the text for
         // display as a parameter.
 
+        mScoreTextView = (TextView) findViewById(R.id.score); // relates score text with on screen TextView
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
+
 
 
         // variable that is containing first variable
@@ -87,6 +97,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) { //WHEN LISTENER DETECTS A TAP ON THE BUTTON, IT RESPONDS
                 // BY FIREING onClick METHOD. iT IS CALLED A "CALLBACK".
+                checkAnswer(true);
                 updateQuestion();
             }
         });
@@ -100,6 +111,7 @@ public class MainActivity extends Activity {
         mFalseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkAnswer(false);
                 updateQuestion();
             }
         });
@@ -122,7 +134,24 @@ public class MainActivity extends Activity {
         //setting a text on the textView:
         mQuestionTextView.setText(mQuestion); // "setText" accepts both,
         // strings of characters and resource IDs.
+        mProgressBar.incrementProgressBy(PROGRESS_BAR_INCREMENT);
     }
+
+    private void checkAnswer(boolean userSelection) {
+        // retrieve correct answer and store it in the variable
+        boolean correctAnswer = mQuestionBank[mIndex].isAnswer();
+
+        if(userSelection == correctAnswer){
+            Toast.makeText(getApplicationContext(), R.string.correct_toast, Toast.LENGTH_SHORT).show();
+
+        } else{
+            Toast.makeText(getApplicationContext(),R.string.incorrect_toast, Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
+
 
 
 
